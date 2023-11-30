@@ -8,8 +8,8 @@ Rahamat Zaman
 // define and configure main Phaser game object
 let config = {
     type: Phaser.AUTO,
-    height: 780,
-    width: 600,
+    height: 600,
+    width: 800,
     scale: {
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
@@ -23,5 +23,24 @@ let config = {
         //     }
         // }
     },
+ 
     scene: [ Menu, Instruction, Credit, Play]
 }
+
+// define game
+let game = new Phaser.Game(config);
+
+// set UI sizes
+let borderUISize = game.config.height / 15;
+let borderPadding = borderUISize / 3;
+
+// define global variables
+
+// keyboard variables to move Rocketship
+let keyLEFT, keyRIGHT;
+
+// keyboard to shoot
+let keySPACEBAR; 
+
+// keyboard to switch between scenes
+let keyPLAY, keyINSTRUCTION, keyCREDIT; 
