@@ -4,14 +4,17 @@ class Instruction extends Phaser.Scene {
     }
 
     create() {
-        //this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
-   
+
+        // Set the background color to blue
+        this.cameras.main.setBackgroundColor('#0000FF');
+
+        // instruction screen configuration
         let instructionConfig = {
-            fontFamily: 'Merci', 
+            fontFamily: 'Courier', 
             fontSize: '25px', 
-            backgroundColor: 'transparent',
-            color: 'red',
-            align: 'right',
+            backgroundColor: '#F8F9F9',
+            color: '#FF0000',
+            align: 'center',
             padding: {
                 top: 5, 
                 bottom: 5,
@@ -20,36 +23,34 @@ class Instruction extends Phaser.Scene {
         };
 
         let mssgConfig = {
-            fontFamily: 'Merci', 
+            fontFamily: 'Courier', 
             fontSize: '19px', 
-            backgroundColor: 'transparent',
-            color: 'green',
+            backgroundColor: '#F8F9F9',
+            color: '#FF0000',
             align: 'center',
             padding: {
                 top: 5, 
                 bottom: 5,
             },
-            fixedWidth: 0
+            fixedWidth: game.config.width - 20, // Adjust the width as needed
+            wordWrap: { width: game.config.width - 20, useAdvancedWrap: true }
         };
-        const mssg = `SpaceFootballRun has 2 objectives: Run and Dodge the football coming at you!
+        const mssg = `Code Blast Adventure has 1 objective: Shoot the aliens before you lose all your health!
        
 
-        Use the space bar to jump. Good Luck!!
+        Use the right and left keys to move!
         `;
         this.add.text(game.config.width/2, game.config.height/7 - borderUISize - borderPadding, 'Instructions', instructionConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, 250, mssg , mssgConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, 375, 'Click <- to go back to menu' , instructionConfig).setOrigin(0.5);
 
-        
-
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         
-   
     }
-    update(){
 
-    
+    update() {
 
+        // Left key to switch back to Menu Scene 
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");    
         }

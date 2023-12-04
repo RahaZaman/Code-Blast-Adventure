@@ -2,8 +2,9 @@
 class Rocketship extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame); 
-
-        this.moveSpeed = 1.5;     // pixels per frame
+        this.scene.add.existing(this)
+     
+        this.moveSpeed = 2;     // pixels per frame
     }
 
     update() {
@@ -14,7 +15,7 @@ class Rocketship extends Phaser.GameObjects.Sprite {
             this.x -= this.moveSpeed;
         }
         
-        // right
+        // right    
         else if (keyRIGHT.isDown) {
             this.x += this.moveSpeed;
         }
