@@ -1,8 +1,11 @@
 // Rocketship prefab
-class Rocketship extends Phaser.GameObjects.Sprite {
+class Rocketship extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame); 
-        this.scene.add.existing(this)
+        this.scene.add.existing(this); 
+        this.scene.physics.add.existing(this);
+
+        // this.setCollideWorldBounds(true);
      
         this.moveSpeed = 2;     // pixels per frame
     }

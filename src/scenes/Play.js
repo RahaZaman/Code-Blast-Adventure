@@ -8,6 +8,7 @@ class Play extends Phaser.Scene {
         this.load.image('coin', './assets/img/coin.png');
         this.load.image('rocketship', './assets/img/rocketship.png'); 
         this.load.image('missile', './assets/img/missile.png');
+        this.load.image('heart', './assets/img/heart.png');
 
         // loading background music
         this.load.audio('action-music', './assets/audio/heroic-action-background-music.mp3'); 
@@ -39,6 +40,12 @@ class Play extends Phaser.Scene {
         // Adjusting the size of the rocketship
         this.rocketship01.setScale(0.25, 0.25); 
 
+        // Set collision bounds for the rocketship
+        // this.rocketship01.setCollideWorldBounds(true);
+        
+        // Set the bounds of the game world to prevent the rocketship from going off-screen
+        // this.physics.world.setBounds(0, 0, game.config.width, game.config.height);
+
         // add alien
         this.alien01 = this.physics.add.sprite(this.randomX, this.randomY, 'alien');
 
@@ -53,6 +60,26 @@ class Play extends Phaser.Scene {
 
         // Game Over flag
         this.gameOver = false;
+
+        // initialize score
+        this.Score = 0;
+
+        // display score
+        let scoreConfig = {
+            fontFamily: 'Times New Roman',
+            fontSize: '29px',
+            backgroundColor: '#5775D3',
+            color: '#CCD1D1',
+            align: 'right',
+            margin: {
+              top: 5,
+              bottom: 5,
+            },
+            fixedWidth: 60,
+        }
+
+        this.scoreDisplay = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.Score, scoreConfig);
+
     }
 
     update() {
@@ -71,7 +98,17 @@ class Play extends Phaser.Scene {
 
         // Generate a random Y coordinate within the specified range
         this.randomY = Phaser.Math.Between(25, 100);
-        
+
+        // check collisions between rocketship and coin
+        // if (this.checkCollision(this.rocketship01, this.coin01)) {
+        //     // adds to score and updates text on screen
+        //     this.Score += 1;
+        //     this.scoreDisplay.text = this.Score; 
+
+        //     // coin is reset to the top of the screen
+        //     this.coin01.setPosition(this.randomX, this.randomY);
+        // }
+    
     }
       
 }

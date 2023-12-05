@@ -44,8 +44,10 @@ class Credit extends Phaser.Scene {
         
 
     }
+
     update(){
 
+        // Left key to switch back to Menu Scene
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
               this.scene.start("menuScene");    
         }
