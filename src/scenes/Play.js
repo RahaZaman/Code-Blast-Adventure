@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
         this.rocketship01 = new Rocketship(this, 300, 540, 'rocketship').setScale(0.5);
 
         // Adjusting the size of the rocketship
-        this.rocketship01.setScale(0.25, 0.25); 
+        this.rocketship01.setScale(0.25, 0.25);
 
         // Set collision bounds for the rocketship
         // this.rocketship01.setCollideWorldBounds(true);
@@ -68,17 +68,17 @@ class Play extends Phaser.Scene {
         let scoreConfig = {
             fontFamily: 'Times New Roman',
             fontSize: '29px',
-            backgroundColor: '#5775D3',
+            // backgroundColor: '#5775D3',
             color: '#CCD1D1',
             align: 'right',
             margin: {
               top: 5,
               bottom: 5,
             },
-            fixedWidth: 60,
+            // fixedWidth: 200,
         }
 
-        this.scoreDisplay = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.Score, scoreConfig);
+        this.scoreDisplay = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, "Score: " + this.Score, scoreConfig);
 
     }
 

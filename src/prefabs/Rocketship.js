@@ -5,7 +5,7 @@ class Rocketship extends Phaser.Physics.Arcade.Sprite {
         this.scene.add.existing(this); 
         this.scene.physics.add.existing(this);
 
-        // this.setCollideWorldBounds(true);
+        this.setCollideWorldBounds(true);
      
         this.moveSpeed = 2;     // pixels per frame
     }
