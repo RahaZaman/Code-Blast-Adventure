@@ -15,13 +15,13 @@ let config = {
     },
     physics: {
         default: 'arcade',
-        // arcade: {
-        //     debug: true,
-        //     gravity: {
-        //         x: 0,
-        //         y: 0
-        //     }
-        // }
+        arcade: {
+            debug: true,
+            gravity: {
+                x: 0,
+                y: 0
+            }
+        }
     },
  
     scene: [ Menu, Instruction, Credit, Play]
