@@ -137,10 +137,11 @@ class Play extends Phaser.Scene {
 
     }
     fireMissile() {
-        // Create a missile at the rocketship's position
-        let missile = new Missile(this, this.rocketship01.x, this.rocketship01.y - this.rocketship01.displayHeight / 2);
+        let missileY = this.rocketship01.y - this.rocketship01.displayHeight / 2;
+        let missile = new Missile(this, this.rocketship01.x, missileY);
         this.missiles.add(missile);
     }
+    
 
     update() {
 
@@ -158,6 +159,11 @@ class Play extends Phaser.Scene {
 
         // Generate a random Y coordinate within the specified range
         this.randomY = Phaser.Math.Between(0, 100);
+
+        // Update all missiles
+        this.missiles.getChildren().forEach(missile => {
+            missile.update();
+        });
 
         // Conditions to reset the alien and coin to the top of screen
         if (this.alien01.y >= this.game.config.height) {

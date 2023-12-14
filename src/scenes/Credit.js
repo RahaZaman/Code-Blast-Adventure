@@ -9,7 +9,7 @@ class Credit extends Phaser.Scene {
 
         // credit screen configuration
         let creditConfig = {
-            fontFamily: 'Courier', 
+            fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '25px', 
             backgroundColor: '#F8F9F9',
             color: '#FF0000',
@@ -22,7 +22,7 @@ class Credit extends Phaser.Scene {
         };
 
         let mssgConfig = {
-            fontFamily: 'Courier', 
+            fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '10px', 
             backgroundColor: '#F8F9F9',
             color: '#FF0000',

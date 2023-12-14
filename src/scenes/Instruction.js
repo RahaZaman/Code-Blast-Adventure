@@ -10,7 +10,7 @@ class Instruction extends Phaser.Scene {
 
         // instruction screen configuration
         let instructionConfig = {
-            fontFamily: 'Courier', 
+            fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '25px', 
             backgroundColor: '#F8F9F9',
             color: '#FF0000',
@@ -23,7 +23,7 @@ class Instruction extends Phaser.Scene {
         };
 
         let mssgConfig = {
-            fontFamily: 'Courier', 
+            fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '19px', 
             backgroundColor: '#F8F9F9',
             color: '#FF0000',
