@@ -5,8 +5,9 @@ Rahamat Zaman
 
 Phaser Main Components: 
 - physics
-- timer
-- particle effects
+- 
+- 
+
 
 */
 

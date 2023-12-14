@@ -39,8 +39,12 @@ class Play extends Phaser.Scene {
         // Number of lives
         this.lives = 5; 
 
-        // array to store hearts
-        this.hearts = [];
+        // heart objects
+        this.heart01 = this.physics.add.sprite(game.config.width - borderUISize, borderUISize, 'heart').setScale(0.05, 0.05);
+        this.heart02 = this.physics.add.sprite(game.config.width - borderUISize * 2, borderUISize, 'heart').setScale(0.05, 0.05);
+        this.heart03 = this.physics.add.sprite(game.config.width - borderUISize * 3, borderUISize, 'heart').setScale(0.05, 0.05);
+        this.heart04 = this.physics.add.sprite(game.config.width - borderUISize * 4, borderUISize, 'heart').setScale(0.05, 0.05);
+        this.heart05 = this.physics.add.sprite(game.config.width - borderUISize * 5, borderUISize, 'heart').setScale(0.05, 0.05);
 
         // add Rocketship
         this.rocketship01 = new Rocketship(this, 300, 540, 'rocketship').setScale(0.5);
@@ -98,12 +102,12 @@ class Play extends Phaser.Scene {
         // }
 
         // Display 5 hearts in the top-right corner
-        for (let i = 0; i < 5; i++) {
-            let heart = this.add.image(game.config.width - borderUISize - (i * 30), borderUISize, 'heart').setScale(0.05, 0.05);
-            // Set unique key for each heart  
-            heart.setData('heartIndex', i);
-            this.hearts.push(heart);
-        }
+        // for (let i = 0; i < 5; i++) {
+        //     let heart = this.add.image(game.config.width - borderUISize - (i * 30), borderUISize, 'heart').setScale(0.05, 0.05);
+        //     // Set unique key for each heart  
+        //     heart.setData('heartIndex', i);
+        //     this.hearts.push(heart);
+        // }
 
         // Game Over flag
         this.gameOver = false;
@@ -159,19 +163,27 @@ class Play extends Phaser.Scene {
     // Function to handle collisions between rocketship and alien 
     handleAlienCollision(rocketship, alien) {
 
-        // Decrement the number of lives
-        this.lives--;
-
-        // Remove a heart from the screen
-        let hearts = this.heartsGroup.getChildren();
-        if (hearts.length > 0) {
-            let removedHeart = hearts.pop();
-            removedHeart.destroy();
-        }
-
         // Checks if game is over
         if (this.lives === 0) {
             this.gameOver = true;
+        }
+
+        // Remove a heart from the screen
+        // let hearts = this.heartsGroup.getChildren();
+        // if (hearts.length > 0) {
+        //     let removedHeart = hearts.pop();
+        //     removedHeart.destroy();
+        // }
+
+        // Decrement the number of lives
+        this.lives--;
+
+        // Conditions to reset the alien and coin to the top of screen
+        if (this.alien01.y >= this.game.config.height) {
+            this.alien01.setPosition(this.randomX, this.randomY);
+        }
+        else if (this.coin01.y >= this.game.config.height) {
+            this.coin01.setPosition(this.randomX, this.randomY);
         }
     }
 
