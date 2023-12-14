@@ -39,15 +39,17 @@ class Play extends Phaser.Scene {
         // Number of lives
         this.lives = 5; 
 
+        // array to store hearts
+        this.hearts = [];
+
         // add Rocketship
-        // this.rocketship01 = new Rocketship(this, game.config.width, borderUISize*9 + borderPadding*6, 'rocketship').setScale(0.5);
         this.rocketship01 = new Rocketship(this, 300, 540, 'rocketship').setScale(0.5);
 
         // Adjusting the size of the rocketship
         this.rocketship01.setScale(0.25, 0.25);
         
         // establishing hitbox for rocketship
-        this.rocketship01.setSize(740, 470);
+        this.rocketship01.setSize(770, 470);
 
         // add alien
         this.alien01 = this.physics.add.sprite(this.randomX, this.randomY, 'alien');
@@ -68,20 +70,25 @@ class Play extends Phaser.Scene {
         this.coin01.setSize(700, 650); 
 
         // Physics group to display hearts
-        this.heartsGroup = this.physics.add.group({
-            key: 'heart',
-            // Number of hearts (0 indexed, so repeat: 4 means 5 hearts)
-            repeat: this.lives - 1,
-            setXY: {
-                x: game.config.width - borderUISize,
-                y: borderUISize,
-                stepX: -30, // Distance between hearts
-            },
-            setScale: { x: 0.05, y: 0.05 },
-        });
+        // this.heartsGroup = this.physics.add.group({
+        //     key: 'heart',
+        //     // Number of hearts (0 indexed, so repeat: 4 means 5 hearts)
+        //     repeat: this.lives - 1,
+        //     setXY: {
+        //         x: game.config.width - borderUISize,
+        //         y: borderUISize,
+        //         stepX: -30, // Distance between hearts
+        //     },
+        //     setScale: { x: 0.05, y: 0.05 },
+        // });
 
-        // Set up collision handler
-        this.physics.add.overlap(this.rocketship01, this.alien01, this.handleCollision, null, this);
+        // Collision Handlers 
+
+        // rocketship and alien
+        this.physics.add.overlap(this.rocketship01, this.alien01, this.handleAlienCollision, null, this);
+
+        // rocketship and coin
+        this.physics.add.overlap(this.rocketship01, this.coin01, this.handleCoinCollision, null, this);
 
         // Display 5 hearts in the top-right corner
         // for (let i = 0; i < 5; i++) {
@@ -89,6 +96,14 @@ class Play extends Phaser.Scene {
         //     // Set unique key for each heart
         //     heart.setData('heartIndex', i);
         // }
+
+        // Display 5 hearts in the top-right corner
+        for (let i = 0; i < 5; i++) {
+            let heart = this.add.image(game.config.width - borderUISize - (i * 30), borderUISize, 'heart').setScale(0.05, 0.05);
+            // Set unique key for each heart  
+            heart.setData('heartIndex', i);
+            this.hearts.push(heart);
+        }
 
         // Game Over flag
         this.gameOver = false;
@@ -139,20 +154,10 @@ class Play extends Phaser.Scene {
             this.coin01.setPosition(this.randomX, this.randomY);
         }
 
-        // check collisions between rocketship and coin
-        // if (this.checkCollision(this.rocketship01, this.coin01)) {
-        //     // adds to score and updates text on screen
-        //     this.Score += 1;
-        //     this.scoreDisplay.text = this.Score; 
-
-        //     // coin is reset to the top of the screen
-        //     this.coin01.setPosition(this.randomX, this.randomY);
-        // }
-    
     }
 
     // Function to handle collisions between rocketship and alien 
-    handleCollision(rocketship, alien) {
+    handleAlienCollision(rocketship, alien) {
 
         // Decrement the number of lives
         this.lives--;
@@ -168,6 +173,18 @@ class Play extends Phaser.Scene {
         if (this.lives === 0) {
             this.gameOver = true;
         }
+    }
+
+    // Functions to handle collisions between rocketship and coin
+    handleCoinCollision(rocketship, coin) {
+        // Increase the score by 1
+        this.Score += 1;
+
+        // Update the text on the screen
+        this.scoreDisplay.text = "Score: " + this.Score;
+
+        // Reset the coin to the top of the screen
+        this.coin01.setPosition(this.randomX, this.randomY);
     }
 
 }

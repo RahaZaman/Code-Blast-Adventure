@@ -3,6 +3,11 @@
 Atri Mehta
 Rahamat Zaman
 
+Phaser Main Components: 
+- physics
+- timer
+- particle effects
+
 */
 
 // define and configure main Phaser game object
