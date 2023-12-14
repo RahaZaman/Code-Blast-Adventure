@@ -13,4 +13,3 @@ class Missile extends Phaser.GameObjects.Sprite {
         }
     }
 }
-
