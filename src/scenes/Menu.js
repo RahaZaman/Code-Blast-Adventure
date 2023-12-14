@@ -23,8 +23,8 @@ class Menu extends Phaser.Scene {
         let menuConfig = {
             fontFamily: 'Rubik Pixels, Papyrus',
             fontSize: '26px',
-            backgroundColor: '#F8F9F9',
-            color: '#FF0000',
+            //backgroundColor: '#F8F9F9',
+            color: '#B22222',
             align: 'center',
             padding: {
                 top: 5,
@@ -34,17 +34,19 @@ class Menu extends Phaser.Scene {
         }
 
         // show menu text
-        this.add.text(game.config.width/2, game.config.height/4 - borderUISize - borderPadding, 'Welcome to Code Blast Adventure', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/3.8, 'Press I for Instructions', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2.8, 'Press P to Play', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/1.8, 'Press C for Credit', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2.5 - borderUISize - borderPadding, 'Welcome to Code Blast Adventure', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2.2, 'Press I for Instructions', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/1.8, 'Press E to Play Easy Level or H to Play Hard Level', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/1.5, 'Press C for Credit', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#0000FF';
         menuConfig.color = '#000';
 
         // define keys to switch scenes
         keyINSTRUCTION = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
         keyCREDIT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
-        keyPLAY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        //keyPLAY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        keyEASY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        keyHARD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
     }
 
     update() {
@@ -54,11 +56,15 @@ class Menu extends Phaser.Scene {
             this.scene.start("instructionScene");    
         }
 
-        // Switching to Play Scene
-        if (Phaser.Input.Keyboard.JustDown(keyPLAY)) {
-            this.scene.start("playScene");    
+        // Start playScene with easy difficulty
+        if (Phaser.Input.Keyboard.JustDown(keyEASY)) {
+            this.scene.start('playScene', { difficulty: 'easy' });
         }
-
+        // Start playScene with hard difficulty
+        else if (Phaser.Input.Keyboard.JustDown(keyHARD)) {
+            this.scene.start('playScene', { difficulty: 'hard' });
+        }
+        
         // Switching to Credit Scene
         if (Phaser.Input.Keyboard.JustDown(keyCREDIT)) {
             this.scene.start("creditScene");    

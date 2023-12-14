@@ -1,6 +1,7 @@
 class Play extends Phaser.Scene {
     constructor() {
         super('playScene');
+        this.dropdownSpeed = 1.2;
     }
 
     preload() {
@@ -12,6 +13,14 @@ class Play extends Phaser.Scene {
 
         // loading background music
         this.load.audio('action-music', './assets/audio/heroic-action-background-music.mp3'); 
+    }
+    init(data) {
+        // Adjust dropdown speed based on the difficulty
+        if (data.difficulty === 'hard') {
+            this.dropdownSpeed = 2.5; // Faster speed for hard level
+        } else {
+            this.dropdownSpeed = 1; // Slower speed for easy level
+        }
     }
 
     create() {
@@ -34,7 +43,7 @@ class Play extends Phaser.Scene {
         //keySPACEBAR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // object dropdown speed
-        this.dropdownSpeed = 1.2;
+        //this.dropdownSpeed = 1.2;
 
         // Number of lives
         this.lives = 5; 
@@ -55,11 +64,16 @@ class Play extends Phaser.Scene {
 
         // Set collision bounds for the rocketship
         // this.rocketship01.setCollideWorldBounds(true);
+
+        this.physics.add.overlap(this.missiles, this.alien01, this.handleMissileAlienCollision, null, this);
+
         
         // establishing hitbox for rocketship
         this.rocketship01.setSize(770, 470);
 
         // add alien
+        this.randomX = Phaser.Math.Between(100, 700);
+        this.randomY = Phaser.Math.Between(0, 100);
         this.alien01 = this.physics.add.sprite(this.randomX, this.randomY, 'alien');
 
         // Adjusting the size of the alien
@@ -93,7 +107,7 @@ class Play extends Phaser.Scene {
         // Collision Handlers 
 
         // rocketship and alien
-        this.physics.add.overlap(this.rocketship01, this.alien01, this.handleAlienCollision, null, this);
+        //this.physics.add.overlap(this.rocketship01, this.alien01, this.handleAlienCollision, null, this);
 
         // rocketship and coin
         this.physics.add.overlap(this.rocketship01, this.coin01, this.handleCoinCollision, null, this);
@@ -137,7 +151,7 @@ class Play extends Phaser.Scene {
 
     }
     fireMissile() {
-        let missileY = this.rocketship01.y - this.rocketship01.displayHeight / 2;
+        let missileY = this.rocketship01.y - this.rocketship01.displayHeight / 0.8;
         let missile = new Missile(this, this.rocketship01.x, missileY);
         this.missiles.add(missile);
     }
@@ -179,6 +193,12 @@ class Play extends Phaser.Scene {
         //     this.Score += 1;
         //     this.scoreDisplay.text = this.Score; 
 
+    }
+    handleMissileAlienCollision(missile, alien) {
+        // Destroy or deactivate the missile
+        missile.destroy(); 
+        // Handle the impact on the alien ship
+        alien.destroy(); 
     }
 
     // Function to handle collisions between rocketship and alien 
