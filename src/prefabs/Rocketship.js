@@ -4,8 +4,6 @@ class Rocketship extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, texture, frame); 
         this.scene.add.existing(this); 
         this.scene.physics.add.existing(this);
-
-        // this.setCollideWorldBounds(true);
      
         this.moveSpeed = 2;     // pixels per frame
     }
@@ -14,12 +12,12 @@ class Rocketship extends Phaser.Physics.Arcade.Sprite {
         // Arrow Key Input
 
         // left
-        if (keyLEFT.isDown) {
+        if (keyLEFT.isDown && this.x >= 100) {
             this.x -= this.moveSpeed;
         }
         
         // right    
-        else if (keyRIGHT.isDown) {
+        else if (keyRIGHT.isDown && this.x <= 716) {
             this.x += this.moveSpeed;
         }
     }
