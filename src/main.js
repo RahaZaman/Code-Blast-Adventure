@@ -3,6 +3,11 @@
 Atri Mehta
 Rahamat Zaman
 
+Phaser Main Components: 
+- physics
+- timer
+- particle effects
+
 */
 
 // define and configure main Phaser game object
@@ -15,13 +20,13 @@ let config = {
     },
     physics: {
         default: 'arcade',
-        // arcade: {
-        //     debug: true,
-        //     gravity: {
-        //         x: 0,
-        //         y: 0
-        //     }
-        // }
+        arcade: {
+            debug: true,
+            gravity: {
+                x: 0,
+                y: 0
+            }
+        }
     },
  
     scene: [ Menu, Instruction, Credit, Play]
