@@ -31,7 +31,7 @@ class Play extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         // define keys to shoot
-        keySPACEBAR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        //keySPACEBAR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // object dropdown speed
         this.dropdownSpeed = 1.2;
@@ -50,7 +50,15 @@ class Play extends Phaser.Scene {
         this.rocketship01 = new Rocketship(this, 300, 540, 'rocketship').setScale(0.5);
 
         // Adjusting the size of the rocketship
-        this.rocketship01.setScale(0.25, 0.25);
+        this.rocketship01.setScale(0.25, 0.25); 
+
+        this.missiles = this.physics.add.group();
+        this.input.keyboard.on('keydown-SPACE', () => {
+            this.fireMissile();
+        });
+
+        // Set collision bounds for the rocketship
+        // this.rocketship01.setCollideWorldBounds(true);
         
         // establishing hitbox for rocketship
         this.rocketship01.setSize(770, 470);
@@ -132,6 +140,11 @@ class Play extends Phaser.Scene {
         this.scoreDisplay = this.add.text(borderUISize - 20, borderUISize - 20, "Score: " + this.Score, scoreConfig);
 
     }
+    fireMissile() {
+        // Create a missile at the rocketship's position
+        let missile = new Missile(this, this.rocketship01.x, this.rocketship01.y - this.rocketship01.displayHeight / 2);
+        this.missiles.add(missile);
+    }
 
     update() {
 
@@ -157,6 +170,12 @@ class Play extends Phaser.Scene {
         else if (this.coin01.y >= this.game.config.height) {
             this.coin01.setPosition(this.randomX, this.randomY);
         }
+
+        // check collisions between rocketship and coin
+        // if (this.checkCollision(this.rocketship01, this.coin01)) {
+        //     // adds to score and updates text on screen
+        //     this.Score += 1;
+        //     this.scoreDisplay.text = this.Score; 
 
     }
 
