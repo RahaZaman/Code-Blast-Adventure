@@ -2,6 +2,7 @@ class Play extends Phaser.Scene {
     constructor() {
         super('playScene');
         this.dropdownSpeed = 1.2;
+        this.coinsCollected = 0;
     }
 
     preload() {
@@ -38,6 +39,19 @@ class Play extends Phaser.Scene {
         // define keys to move Rocketship
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
+
+        this.restartPrompt = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'GAME OVER! Press R to Restart', {
+            fontSize: '28px',
+            fill: '#FFFFFF',
+            fontFamily: '"Georgia"',
+            strokeThickness: 5,
+            stroke: 'black',
+            align: 'center'
+        }).setOrigin(0.5).setVisible(false);
+        
+
 
         // define keys to shoot
         //keySPACEBAR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -65,7 +79,7 @@ class Play extends Phaser.Scene {
         // Set collision bounds for the rocketship
         // this.rocketship01.setCollideWorldBounds(true);
 
-        this.physics.add.overlap(this.missiles, this.alien01, this.handleMissileAlienCollision, null, this);
+        this.physics.add.overlap(this.rocketship01, this.alien01, this.handleMissileAlienCollision, null, this);
 
         
         // establishing hitbox for rocketship
@@ -159,6 +173,16 @@ class Play extends Phaser.Scene {
 
     update() {
 
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(this.keyR)) {
+            // Reset game state
+            this.coinsCollected = 0;
+            this.gameOver = false;
+            this.restartPrompt.setVisible(false);
+    
+            // Restart the scene
+            this.scene.restart();
+        }
+
         // Updates rocketship movement
         this.rocketship01.update(); 
 
@@ -220,6 +244,10 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }
     }
+    endGame() {
+        this.gameOver = true;
+        this.restartPrompt.setVisible(true); 
+    }
 
     // Functions to handle collisions between rocketship and coin
     handleCoinCollision(rocketship, coin) {
@@ -229,8 +257,15 @@ class Play extends Phaser.Scene {
         // Update the text on the screen
         this.scoreDisplay.text = "Score: " + this.Score;
 
+        // Increment coin count
+        this.coinsCollected += 1;
+
+        if (this.coinsCollected >= 5) {
+            // Set game over flag
+            this.endGame();
+        }
+
         // Reset the coin to the top of the screen
         this.coin01.setPosition(this.randomX, this.randomY);
     }
-
 }

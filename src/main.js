@@ -48,4 +48,4 @@ let keyLEFT, keyRIGHT;
 let keySPACEBAR; 
 
 // keyboard to switch between scenes
-let keyEASY, keyINSTRUCTION, keyCREDIT, keyHARD; 
+let keyEASY, keyINSTRUCTION, keyCREDIT, keyHARD, keyR;;
