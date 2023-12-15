@@ -194,6 +194,7 @@ class Play extends Phaser.Scene {
         //     this.scoreDisplay.text = this.Score; 
 
     }
+    
     handleMissileAlienCollision(missile, alien) {
         // Destroy or deactivate the missile
         missile.destroy(); 
