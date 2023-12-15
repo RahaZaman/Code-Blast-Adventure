@@ -9,10 +9,10 @@ class Credit extends Phaser.Scene {
 
         // credit screen configuration
         let creditConfig = {
-            fontFamily: 'Courier', 
+            fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '25px', 
-            backgroundColor: '#F8F9F9',
-            color: '#FF0000',
+            //backgroundColor: '#F8F9F9',
+            color: '#B22222',
             align: 'center',
             padding: {
                 top: 5, 
@@ -22,10 +22,10 @@ class Credit extends Phaser.Scene {
         };
 
         let mssgConfig = {
-            fontFamily: 'Courier', 
-            fontSize: '10px', 
-            backgroundColor: '#F8F9F9',
-            color: '#FF0000',
+            fontFamily: 'Rubik Pixels, Papyrus', 
+            fontSize: '30px', 
+            //backgroundColor: '#F8F9F9',
+            color: '#B22222',
             align: 'center',
             padding: {
                 top: 5, 
@@ -35,9 +35,9 @@ class Credit extends Phaser.Scene {
         };
         const mssg = `Developed by: Atri Mehta and Rahamat Zaman`;
         
-        this.add.text(game.config.width/2, game.config.height/7 - borderUISize - borderPadding, 'Credits', creditConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, 200, mssg , mssgConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, 300, 'Click <- to go back to menu' , creditConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/4 - borderUISize - borderPadding, 'Credits', creditConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, 250, mssg , mssgConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, 325, 'Click <- to go back to menu' , creditConfig).setOrigin(0.5);
 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
 
