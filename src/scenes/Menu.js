@@ -23,7 +23,7 @@ class Menu extends Phaser.Scene {
         let menuConfig = {
             fontFamily: 'Rubik Pixels, Papyrus',
             fontSize: '26px',
-            //backgroundColor: '#F8F9F9',
+            fontStyle: 'bold',
             color: '#B22222',
             align: 'center',
             padding: {
@@ -44,7 +44,6 @@ class Menu extends Phaser.Scene {
         // define keys to switch scenes
         keyINSTRUCTION = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
         keyCREDIT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
-        //keyPLAY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         keyEASY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
         keyHARD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
     }
