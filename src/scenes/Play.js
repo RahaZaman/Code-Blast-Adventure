@@ -65,7 +65,7 @@ class Play extends Phaser.Scene {
         // Set collision bounds for the rocketship
         // this.rocketship01.setCollideWorldBounds(true);
 
-        this.physics.add.overlap(this.missiles, this.alien01, this.handleMissileAlienCollision, null, this);
+        this.physics.add.overlap(this.rocketship01, this.alien01, this.handleMissileAlienCollision, null, this);
 
         
         // establishing hitbox for rocketship
