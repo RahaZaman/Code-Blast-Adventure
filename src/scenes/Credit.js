@@ -24,7 +24,6 @@ class Credit extends Phaser.Scene {
         let mssgConfig = {
             fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '30px', 
-            //backgroundColor: '#F8F9F9',
             color: '#B22222',
             align: 'center',
             padding: {

@@ -35,7 +35,7 @@ class Instruction extends Phaser.Scene {
             fixedWidth: game.config.width - 20, // Adjust the width as needed
             wordWrap: { width: game.config.width - 20, useAdvancedWrap: true }
         };
-        const mssg = `Code Blast Adventure has 1 objective: Shoot the aliens before you lose all your health!
+        const mssg = `Code Blast Adventure has 2 objectives: Shoot the aliens before you lose all your health or collect 5 coins to win the Game!
        
 
         Use the right and left keys to move!

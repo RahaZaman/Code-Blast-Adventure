@@ -48,4 +48,7 @@ let keyLEFT, keyRIGHT;
 let keySPACEBAR; 
 
 // keyboard to switch between scenes
-let keyEASY, keyINSTRUCTION, keyCREDIT, keyHARD, keyR;;
+let keyEASY, keyINSTRUCTION, keyCREDIT, keyHARD, 
+
+// keyboard to restart game/scene
+keyR;
