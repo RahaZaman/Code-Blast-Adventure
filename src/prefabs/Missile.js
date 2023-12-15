@@ -4,14 +4,20 @@ class Missile extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setVelocityY(-300); // Adjust the speed as needed
+        this.moveSpeed = 2.5;
     }
 
     update() {
         if (this.y < 0 - this.height) {
             this.destroy(); // Destroys the missile when it goes off the screen
         }
+        if (this.y > 0) {
+            this.y -= this.moveSpeed
+        }
+        else {
+            this.destroy()
+        }
     }
-
 
     // Position resets
     reset() {

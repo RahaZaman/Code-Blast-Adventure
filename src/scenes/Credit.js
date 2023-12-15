@@ -2,16 +2,17 @@ class Credit extends Phaser.Scene {
     constructor(){
         super("creditScene");
     }
+    
     create(){
 
         // Set the background color to blue
         this.cameras.main.setBackgroundColor('#0000FF');
 
-        // credit screen configuration
+        // Credit screen configuration
         let creditConfig = {
             fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '25px', 
-            //backgroundColor: '#F8F9F9',
+            fontStyle: 'bold',
             color: '#B22222',
             align: 'center',
             padding: {
@@ -24,6 +25,7 @@ class Credit extends Phaser.Scene {
         let mssgConfig = {
             fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '30px', 
+            fontStyle: 'bold',
             color: '#B22222',
             align: 'center',
             padding: {
@@ -39,8 +41,6 @@ class Credit extends Phaser.Scene {
         this.add.text(game.config.width/2, 325, 'Click <- to go back to menu' , creditConfig).setOrigin(0.5);
 
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-
-        
 
     }
 

@@ -12,7 +12,7 @@ class Instruction extends Phaser.Scene {
         let instructionConfig = {
             fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '25px', 
-            //backgroundColor: '#F8F9F9',
+            fontStyle: 'bold',
             color: '#B22222',
             align: 'center',
             padding: {
@@ -25,7 +25,7 @@ class Instruction extends Phaser.Scene {
         let mssgConfig = {
             fontFamily: 'Rubik Pixels, Papyrus', 
             fontSize: '23px', 
-            //backgroundColor: '#F8F9F9',
+            fontStyle: 'bold',
             color: '#B22222',
             align: 'center',
             padding: {
@@ -35,7 +35,7 @@ class Instruction extends Phaser.Scene {
             fixedWidth: game.config.width - 20, // Adjust the width as needed
             wordWrap: { width: game.config.width - 20, useAdvancedWrap: true }
         };
-        const mssg = `Code Blast Adventure has 2 objectives: Shoot the aliens before you lose all your health or collect 5 coins to win the Game!
+        const mssg = `Code Blast Adventure has 2 objectives: Shoot the aliens with spacebar before you lose all your health or collect 5 coins to win the Game!
        
 
         Use the right and left keys to move!

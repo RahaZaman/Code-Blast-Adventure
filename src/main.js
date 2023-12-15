@@ -1,12 +1,36 @@
 /* 
 
+Developers/Collaborators: 
 Atri Mehta
 Rahamat Zaman
 
-Phaser Main Components: 
-- physics
-- timer
+Technical Execution - Phaser Main Components: 
+- physics systems
 - particle effects
+- score (counter)
+- camera (background)
+
+Sources/Citations:
+
+Action Background Music (In Play Scene): https://www.chosic.com/download-audio/45301/
+Cinematic Background Music (In Menu, Credit, and Instruction Scene): https://uppbeat.io/t/aaron-paul-low/elevator-to-heaven
+Coin Sound: https://pixabay.com/sound-effects/collectcoin-6075/
+Explosion Sound: https://mixkit.co/free-sound-effects/explosion/
+
+Our game originates from Episode One: "The Woz" (2007) from the tv show Code Monkeys. For our game we followed almost the exact
+formatting and style as shown in an image within the episode. We wanted the game to feel as original as possible with some minor 
+adaptations and adjustments. 
+
+*We used VSCode live share extension to work together, and we had individual branches and a development branche to work indivually.
+Commits are on our branches and across our codebase.*
+
+We keep all of the following from the original (Fake Game): 
+- hearts (represents player health)
+- rocketship
+- alien
+- blue background
+- score 
+- missile shooting
 
 */
 
@@ -20,13 +44,13 @@ let config = {
     },
     physics: {
         default: 'arcade',
-        arcade: {
-            debug: true,
-            gravity: {
-                x: 0,
-                y: 0
-            }
-        }
+        // arcade: {
+        //     debug: true,
+        //     gravity: {
+        //         x: 0,
+        //         y: 0
+        //     }
+        // }
     },
  
     scene: [ Menu, Instruction, Credit, Play]

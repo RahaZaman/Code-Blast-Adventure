@@ -3,18 +3,25 @@ class Play extends Phaser.Scene {
         super('playScene');
         this.dropdownSpeed = 1.2;
         this.Score = 0;
-        
     }
 
     preload() {
+
+        // loading images
         this.load.image('alien', './assets/img/alien.png');
+        this.load.image('particle', './assets/img/particle.png');
         this.load.image('coin', './assets/img/coin.png');
         this.load.image('rocketship', './assets/img/rocketship.png'); 
         this.load.image('missile', './assets/img/missile.png');
         this.load.image('heart', './assets/img/heart.png');
 
-        // loading background music
+        // loading audio
         this.load.audio('action-music', './assets/audio/heroic-action-background-music.mp3'); 
+        this.load.audio('coinsound','./assets/audio/coinsound.mp3');
+        this.load.audio('explosion-sound', './assets/audio/explosion-sound.wav')
+        this.load.audio('launch','./assets/audio/launch.mp3');
+
+
     }
     
     init(data) {
@@ -44,9 +51,12 @@ class Play extends Phaser.Scene {
 
         // define key to restart game/scene
         this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
+        // define keys to shoot
+        // keySPACEBAR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
-        // restart configuration
-        this.restartPrompt = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'GAME OVER! Press R to Restart', {
+        // lose and restart configuration
+        this.losePrompt = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'GAME OVER! YOU LOST! Press R to Restart', {
             fontSize: '28px',
             fill: '#FFFFFF',
             fontFamily: '"Georgia"',
@@ -54,9 +64,22 @@ class Play extends Phaser.Scene {
             stroke: 'black',
             align: 'center'
         }).setOrigin(0.5).setVisible(false);
-        
-        // define keys to shoot
-        //keySPACEBAR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        // win and restart configuration
+        this.winPrompt = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 'GAME OVER! YOU WON! Press R to Restart', {
+            fontSize: '28px',
+            fill: '#FFFFFF',
+            fontFamily: '"Georgia"',
+            strokeThickness: 5,
+            stroke: 'black',
+            align: 'center'
+        }).setOrigin(0.5).setVisible(false);
+
+        // lives variable
+        this.lives = 5
+
+        // array of hearts
+        this.hearts = [];
 
         // add Rocketship
         this.rocketship01 = new Rocketship(this, 300, 540, 'rocketship').setScale(0.5);
@@ -73,6 +96,14 @@ class Play extends Phaser.Scene {
         // establishing hitbox for rocketship
         this.rocketship01.setSize(770, 470);
 
+        // Display 5 hearts in the top-right corner
+        for (let i = 0; i < 5; i++) {
+        let heart = this.add.image(game.config.width - borderUISize - (i * 30), borderUISize, 'heart').setScale(0.05, 0.05);
+            // Set unique key for each heart  
+            heart.setData('heartIndex', i);
+            this.hearts.push(heart);
+        }
+
         // add alien
         this.randomX = Phaser.Math.Between(100, 700);
         this.randomY = Phaser.Math.Between(0, 100);
@@ -84,8 +115,6 @@ class Play extends Phaser.Scene {
         // establish hitbox for alien
         this.alien01.setSize(800, 800);
 
-        this.physics.add.overlap(this.rocketship01, this.alien01, this.handleMissileAlienCollision, null, this);
-
         // add coin
         this.coin01 = this.physics.add.sprite(this.randomX, this.randomY, 'coin');
 
@@ -95,47 +124,16 @@ class Play extends Phaser.Scene {
         // establish hitbox for coin
         this.coin01.setSize(700, 650); 
 
-        // Physics group to display hearts
-        // this.heartsGroup = this.physics.add.group({
-        //     key: 'heart',
-        //     // Number of hearts (0 indexed, so repeat: 4 means 5 hearts)
-        //     repeat: this.lives - 1,
-        //     setXY: {
-        //         x: game.config.width - borderUISize,
-        //         y: borderUISize,
-        //         stepX: -30, // Distance between hearts
-        //     },
-        //     setScale: { x: 0.05, y: 0.05 },
-        // });
-
         // Collision Handlers 
-
-
 
         // rocketship and coin
         this.physics.add.overlap(this.rocketship01, this.coin01, this.handleCoinCollision, null, this);
 
-        // Display 5 hearts in the top-right corner
-        // for (let i = 0; i < 5; i++) {
-        //     let heart = this.add.image(game.config.width - borderUISize - (i * 30), borderUISize, 'heart').setScale(0.05, 0.05);
-        //     // Set unique key for each heart
-        //     heart.setData('heartIndex', i);
-        // }
+        // player and alien
+        this.physics.add.overlap(this.rocketship01, this.alien01, this.handleAlienCollision, null, this);
 
-        // Display 5 hearts in the top-right corner
-        //for (let i = 0; i < 5; i++) {
-           // let heart = this.add.image(game.config.width - borderUISize - (i * 30), borderUISize, 'heart').setScale(0.05, 0.05);
-            // Set unique key for each heart  
-            //heart.setData('heartIndex', i);
-            //this.hearts.push(heart);
-        //}
-
-        // heart group and alien
-        //this.physics.add.collider(this.heartsGroup, this.alien01, this.handleAlienHeartCollision, null, this);
-
-
-        // Game Over flag
-        //this.gameOver = false;
+        // missile and alien
+        this.physics.add.overlap(this.missiles, this.alien01, this.handleMissileAlienCollision, null, this);
 
         // score configuration
         let scoreConfig = {
@@ -154,15 +152,6 @@ class Play extends Phaser.Scene {
         this.scoreDisplay = this.add.text(borderUISize - 20, borderUISize - 20, "Score: " + this.Score, scoreConfig);
 
     }
-
-    fireMissile() {
-        let missileY = this.rocketship01.y - this.rocketship01.displayHeight / 0.8;
-        let missile = new Missile(this, this.rocketship01.x, missileY);
-        this.missiles.add(missile);
-
-        // collision handler for missile and alien
-        // this.physics.add.overlap(missile, this.alien01, this.handleMissileAlienCollision, null, this);
-    }
     
     update() {
 
@@ -176,99 +165,90 @@ class Play extends Phaser.Scene {
 
         if (!this.gameOver) {
             this.rocketship01.update();
-        }
 
-        // Updates rocketship movement
-        this.rocketship01.update(); 
+            // Updates rocketship movement
+            this.rocketship01.update(); 
 
-        // Move the alien down by increasing its Y position
-        this.alien01.y += this.dropdownSpeed;
+            // Move the alien down by increasing its Y position
+            this.alien01.y += this.dropdownSpeed;
 
-        // Move the coin down by increasing its Y position
-        this.coin01.y += this.dropdownSpeed; 
+            // Move the coin down by increasing its Y position
+            this.coin01.y += this.dropdownSpeed; 
 
-        // Generate a random Y coordinate within the specified range
-        this.randomX = Phaser.Math.Between(100, 700);
+            // Generate a random Y coordinate within the specified range
+            this.randomX = Phaser.Math.Between(100, 700);
 
-        // Generate a random Y coordinate within the specified range
-        this.randomY = Phaser.Math.Between(0, 100);
+            // Generate a random Y coordinate within the specified range
+            this.randomY = Phaser.Math.Between(0, 100);
 
-        // check collisions
-        // if (this.checkCollision(this.missile, this.alien01)) {
-        //     this.missile.destroy(); 
-        //     this.missile.reset();
-        //     this.resetAlien();
-        // }
+            // Update all missiles
+            this.missiles.getChildren().forEach(missile => {
+                missile.update();
+            });
 
-        // Update all missiles
-        this.missiles.getChildren().forEach(missile => {
-            missile.update();
-        });
-
-        this.physics.overlap(this.missiles, this.alien01, this.handleMissileAlienCollision, null, this);
-
-        // Conditions to reset the alien and coin to the top of screen
-        if (this.alien01.y >= this.game.config.height) {
-            this.alien01.setPosition(this.randomX, this.randomY);
-        }
-        else if (this.coin01.y >= this.game.config.height) {
-            this.coin01.setPosition(this.randomX, this.randomY);
+            // Conditions to reset the alien and coin to the top of screen
+            if (this.alien01.y >= this.game.config.height) {
+                this.alien01.setPosition(this.randomX, this.randomY);
+            }
+            else if (this.coin01.y >= this.game.config.height) {
+                this.coin01.setPosition(this.randomX, this.randomY);
+            }
         }
 
     }
 
-    // Function to reset the alien to the top of the screen
-    resetAlien() {
-        this.randomX = Phaser.Math.Between(100, 700);
-        this.randomY = Phaser.Math.Between(0, 100);
-        this.alien01.setPosition(this.randomX, this.randomY);
+    // Function that sets up missile to shoot and adds it to group 
+    fireMissile() {
+        let missile = new Missile(this, this.rocketship01.x - 8, this.rocketship01.y);
+        this.missiles.add(missile);
+        this.sound.play('launch');
     }
 
-
-
-    // Function to restart game
+    // Function to restart game state
     resetGameState() {
         this.Score = 0;
         this.scoreDisplay.text = "Score: " + this.Score;
         this.gameOver = false;
-        this.restartPrompt.setVisible(false);
+        this.winPrompt.setVisible(false);
+        this.losePrompt.setVisible(false);
+
         this.physics.resume(); 
 
         if (this.gameMusic && this.gameMusic.isPlaying) {
             this.gameMusic.stop();
         }
     }
-
-    // checkCollision(missile, alien) {
-    //     // simple AABB checking
-    //     if (missile.x < alien.x + alien.width && 
-    //         missile.x + missile.width > alien.x && 
-    //         missile.y < alien.y + alien.height &&
-    //         missile.height + missile.y > alien.y) {
-    //             return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
     
+    // Particle effect/emitter function
+    createExplosion(x, y) {
+        const emitter = this.add.particles('particle').createEmitter({
+            x: x,
+            y: y,
+            lifespan: 2000,
+            speed: { min: 100, max: 200 },
+            angle: { min: 0, max: 360 },
+            scale: { start: 0.1, end: 0 },
+            blendMode: 'ADD',
+            quantity: 20,
+            on: false
+        });
+    
+        emitter.explode(20, x, y);
+    }
+
+
     // Function to handle collisions between missile and alien
-    handleMissileAlienCollision(missile, alien) {
-        // Destroy or deactivate the missilep
-        // missile.destroy(); 
+    handleMissileAlienCollision(alien, missile) {
+        // Destroy or deactivate the missile
+        missile.destroy(); 
 
-        // Deactivate the missile
-        missile.setActive(false);
-        missile.setVisible(false);
+        this.createExplosion(alien.x, alien.y);
 
-        // Handle the impact on the alien ship
-        // alien.destroy(); 
-
-        // resets the missile
-        // missile.reset();
+        // Play the explosion sound when missile hits alien
+        this.sound.play('explosion-sound');
 
         // reset position of alien object
-        // this.alien01.setPosition(this.randomX, this.randomY);
-        this.resetAlien();
+        this.alien01.setPosition(this.randomX, this.randomY);
     }    
 
     // Function to handle collisions between rocketship and alien 
@@ -281,29 +261,15 @@ class Play extends Phaser.Scene {
             let removedHeart = this.hearts.pop();
             removedHeart.destroy();
         }
-    
+
         // Check if all lives are lost
         if (this.lives <= 0) {
+            this.losePrompt.setVisible(true); 
             this.endGame();
         }
     
         // Reset the alien position
-        // this.alien01.setPosition(this.randomX, this.randomY);
-        this.alien01.resetAlien();
-    }
-    
-    // endGame() {
-      //  if (this.lives === 0) {
-        //    this.gameOver = true;
-          //  this.physics.pause(); 
-        //}
-        //this.restartPrompt.setVisible(true); 
-    //}
-
-    endGame() {
-        this.gameOver = true;
-        this.physics.pause(); // Pause game mechanics
-        this.restartPrompt.setVisible(true); 
+        this.alien01.setPosition(this.randomX, this.randomY);
     }
 
     // Functions to handle collisions between rocketship and coin
@@ -314,12 +280,22 @@ class Play extends Phaser.Scene {
         // Update the text on the screen
         this.scoreDisplay.text = "Score: " + this.Score;
 
+        // Play the coin sound
+        this.sound.play('coinsound');
+
         if (this.Score >= 5) {
             // Set game over flag
+            this.winPrompt.setVisible(true); 
             this.endGame();
         }
 
         // Reset the coin to the top of the screen
         this.coin01.setPosition(this.randomX, this.randomY);
+    }
+
+    // End game function
+    endGame() {
+        this.gameOver = true;
+        this.physics.pause(); // Pause game mechanics
     }
 }
