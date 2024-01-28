@@ -15,7 +15,7 @@ Graphics: Pixel art for rocketship, aliens, coins, and more.
 ### **Collaboration**
 Developers Atri Mehta and Rahamat Zaman collaborated efficiently using Git and GitHub. They utilized branches for individual work and merged into a development branch before deploying on GitHub Pages.
 
-![](CodeBlastAdventure_PlayScene.png)
+![](ScreenshotofCodeBlastAdventure_PlayScene.png).
 
 ### **How to Play**
 1. Press I for instructions.
